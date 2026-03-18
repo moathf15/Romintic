@@ -11,103 +11,32 @@ body {
   text-align: center;
 }
 
-/* الحاوية */
-.container {
-  max-width: 700px;
-  margin: 0 auto;
-  padding: 15px;
-}
+.container { max-width: 700px; margin: 0 auto; padding: 15px; }
+h1 { color: #ff4f79; font-size: 2em; margin-bottom: 10px; }
+#intro { font-size: 1.2em; color: #ff3366; margin-bottom: 20px; }
 
-/* العنوان */
-h1 {
-  color: #ff4f79;
-  font-size: 2em;
-  margin-bottom: 10px;
-}
-
-/* رسالة رومانسية في البداية */
-#intro {
-  font-size: 1.2em;
-  color: #ff3366;
-  margin-bottom: 20px;
-}
-
-/* اللاعبين */
-.players {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 15px;
-}
-
-.player {
-  background-color: #ff99aa;
-  padding: 10px;
-  border-radius: 12px;
-  color: white;
-  font-weight: bold;
-  width: 45%;
-}
-
+.players { display: flex; justify-content: space-between; margin-bottom: 15px; }
+.player { background-color: #ff99aa; padding: 10px; border-radius: 12px; color: white; font-weight: bold; width: 45%; }
 .player2 { background-color: #ff6699; }
+.score { margin-top: 5px; }
+input { padding: 8px; width: 120px; border-radius: 8px; border: none; text-align: center; font-weight: bold; }
 
-.score {
-  margin-top: 5px;
-}
-
-input {
-  padding: 8px;
-  width: 120px;
-  border-radius: 8px;
-  border: none;
-  text-align: center;
-  font-weight: bold;
-}
-
-/* الأزرار */
 .start-btn, .answers button {
-  padding: 10px 25px;
-  border-radius: 10px;
-  border: none;
-  font-weight: bold;
-  cursor: pointer;
-  background-color: #ff99aa;
-  color: white;
-  margin-top: 10px;
+  padding: 10px 25px; border-radius: 10px; border: none; font-weight: bold; cursor: pointer;
+  background-color: #ff99aa; color: white; margin-top: 10px;
 }
-
-.answers button { width: 70%; }
+.answers button { width: 70%; margin: 5px 0; }
 
 .correct { background-color: #00cc44 !important; color: white; }
 .wrong { background-color: #ff3333 !important; color: white; }
 
-/* زر العودة */
 .home-btn {
-  padding: 8px 15px;
-  border-radius: 8px;
-  border: none;
-  background-color: #ffffff;
-  font-weight: bold;
-  cursor: pointer;
-  position: fixed;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
+  padding: 8px 15px; border-radius: 8px; border: none; background-color: #ffffff; font-weight: bold; cursor: pointer;
+  position: fixed; top: 10px; left: 50%; transform: translateX(-50%);
 }
 
-/* المؤقت */
 .timer { font-size: 22px; margin-top: 10px; color: #ff3366; }
-
-/* صندوق السؤال */
-.question-box {
-  display: none;
-  background: #fff0f5;
-  color: black;
-  margin: 20px auto;
-  padding: 15px;
-  border-radius: 12px;
-}
-
-/* الرسالة */
+.question-box { display: none; background: #fff0f5; color: black; margin: 20px auto; padding: 15px; border-radius: 12px; }
 .message { font-size: 18px; margin-top: 10px; font-weight: bold; color: #ff3366; }
 </style>
 </head>
@@ -133,7 +62,6 @@ input {
 </div>
 
 <button class="start-btn" id="startBtn" onclick="startGame()">ابدأ اللعبة 💕</button>
-
 <div class="timer" id="timer"></div>
 
 <div class="question-box" id="questionBox">
@@ -148,20 +76,21 @@ input {
 
 <script>
 let questions = [
-  "أرسل رسالة حب غريبة للشخص الثاني",
-  "قل للشخص الثاني شيء جريء لم تقله من قبل",
-  "ماذا ستفعل لو كنت مع الشخص الثاني الآن؟",
-  "ما أكثر شيء يعجبك فيه؟",
-  "شارك سر صغير للشخص الثاني",
-  "هل يمكنك وصف شعور قلبك الآن؟",
-  "قل كلمة رومانسية بطريقة مضحكة",
-  "ما الشيء الذي تريد أن تجربه مع الشخص الآخر؟"
+  "أرسل رسالة حب غريبة للشخص الثاني 💌",
+  "قل للشخص الثاني شيء جريء لم تقله من قبل 😏",
+  "ماذا ستفعل لو كنت مع الشخص الثاني الآن؟ 🥰",
+  "ما أكثر شيء يعجبك فيه؟ 💖",
+  "شارك سر صغير للشخص الثاني 🤫",
+  "هل يمكنك وصف شعور قلبك الآن؟ ❤️",
+  "قل كلمة رومانسية بطريقة مضحكة 😂💘",
+  "ما الشيء الذي تريد أن تجربه مع الشخص الآخر؟ 🌹"
 ];
 
 let currentPlayer = 1;
 let timer;
 let time = 30;
 let score1=0, score2=0;
+let lastQuestionIndex = -1;
 
 function startGame(){
   let p1=document.getElementById("player1Name").value.trim();
@@ -175,19 +104,23 @@ function startGame(){
 }
 
 function nextQuestion(){
-  if(score1>=10){ alert(document.getElementById("player1Name").value + " فاز! يمكنك الحكم على الشخص الثاني 😏"); restartGame(); return; }
-  if(score2>=10){ alert(document.getElementById("player2Name").value + " فاز! يمكنك الحكم على الشخص الأول 😏"); restartGame(); return; }
+  if(score1>=10){ alert(`${document.getElementById("player1Name").value} فاز! يمكنك الحكم على الشخص الثاني 😏`); restartGame(); return; }
+  if(score2>=10){ alert(`${document.getElementById("player2Name").value} فاز! يمكنك الحكم على الشخص الأول 😏`); restartGame(); return; }
 
   document.getElementById("questionBox").style.display="block";
-  let qIndex=Math.floor(Math.random()*questions.length);
+
+  let qIndex;
+  do { qIndex=Math.floor(Math.random()*questions.length); } while(qIndex===lastQuestionIndex);
+  lastQuestionIndex = qIndex;
+
   document.getElementById("question").innerText=questions[qIndex];
   let answersDiv=document.getElementById("answers");
   answersDiv.innerHTML="";
 
-  ["صحيح","خطأ"].forEach(opt=>{
+  ["💖 أوافق","💔 لا أوافق"].forEach(opt=>{
     let btn=document.createElement("button");
     btn.innerText=opt;
-    btn.onclick=()=> checkAnswer(opt==="صحيح");
+    btn.onclick=()=> checkAnswer(opt==="💖 أوافق");
     answersDiv.appendChild(btn);
   });
 
@@ -198,25 +131,28 @@ function nextQuestion(){
     updateTimer();
     if(time<=0){
       clearInterval(timer);
-      switchPlayer();
+      document.getElementById("message").innerText="انتهى الوقت ⏰";
+      setTimeout(switchPlayer,1500);
     }
   },1000);
 }
 
 function updateTimer(){
-  document.getElementById("timer").innerText=`⏱ الدور الحالي: ${currentPlayer==1?document.getElementById("player1Name").value:document.getElementById("player2Name").value} - ${time} ثانية`;
+  let name=currentPlayer===1?document.getElementById("player1Name").value:document.getElementById("player2Name").value;
+  document.getElementById("timer").innerText=`⏱ الدور الحالي: ${name} - ${time} ثانية`;
 }
 
 function checkAnswer(isCorrect){
   clearInterval(timer);
+  let audio = isCorrect ? document.getElementById("correctSound") : document.getElementById("wrongSound");
+  audio.pause(); audio.currentTime=0; audio.play();
+
   if(isCorrect){
     if(currentPlayer===1){ score1++; document.getElementById("score1").innerText=score1;}
     else{ score2++; document.getElementById("score2").innerText=score2;}
     document.getElementById("message").innerText="أحسنت! ✅";
-    document.getElementById("correctSound").play();
   } else{
     document.getElementById("message").innerText="خطأ ❌";
-    document.getElementById("wrongSound").play();
   }
   setTimeout(switchPlayer,1500);
 }
