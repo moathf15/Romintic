@@ -4,11 +4,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>لعبة رومانسية بين الحبيبين</title>
 <style>
-body { margin:0; font-family:Arial,sans-serif; background:linear-gradient(to bottom,#ffc1cc,#ffe6f0,#ffffff); text-align:center; }
+body {
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:linear-gradient(to bottom,#ffc1cc,#ffe6f0,#ffffff);
+  text-align:center;
+}
 .container { max-width:700px; margin:0 auto; padding:15px; }
-h1 { color:#ff4f79; font-size:2em; margin-bottom:10px; }
-input { padding:8px; width:140px; border-radius:8px; border:none; text-align:center; font-weight:bold; }
-button { padding:10px 25px; border-radius:10px; border:none; font-weight:bold; cursor:pointer; background-color:#ff99aa; color:white; margin:10px; }
+h1,h2,h3 { color:#ff4f79; }
+input { padding:8px; width:140px; border-radius:8px; border:none; text-align:center; font-weight:bold; margin:5px 0; }
+button {
+  padding:10px 25px; border-radius:10px; border:none; font-weight:bold; cursor:pointer;
+  background-color:#ff99aa; color:white; margin:10px;
+}
 .timer { font-size:22px; margin-top:10px; color:#ff3366; }
 .question-box, .punishment-box { display:none; background:#fff0f5; color:black; margin:20px auto; padding:15px; border-radius:12px; }
 .answers button { width:70%; margin:5px 0; }
@@ -16,6 +24,14 @@ button { padding:10px 25px; border-radius:10px; border:none; font-weight:bold; c
 .wrong { background-color:#ff3333 !important; color:white; }
 .message { font-size:18px; margin-top:10px; font-weight:bold; color:#ff3366; }
 .home-btn { padding:8px 15px; border-radius:8px; border:none; background-color:#ffffff; font-weight:bold; cursor:pointer; position:fixed; top:10px; left:50%; transform:translateX(-50%); }
+
+/* بوكسات اللاعبين */
+.players { display:flex; justify-content:space-between; margin:20px 0; }
+.player-box {
+  width:45%; background:#ff99aa; color:white; padding:15px; border-radius:12px;
+  box-shadow:0 4px 8px rgba(0,0,0,0.2); font-weight:bold; text-align:center;
+}
+.player-box.player2 { background:#ff6699; }
 </style>
 </head>
 <body>
@@ -24,8 +40,8 @@ button { padding:10px 25px; border-radius:10px; border:none; font-weight:bold; c
 <!-- الصفحة الأولى: إدخال الأسماء -->
 <div id="pageStart">
 <h1>💖 لعبة بين الحبيبين</h1>
-<input type="text" id="player1Name" placeholder="اسم الشخص الأول"><br><br>
-<input type="text" id="player2Name" placeholder="اسم الشخص الثاني"><br><br>
+<input type="text" id="player1Name" placeholder="اسم الشخص الأول"><br>
+<input type="text" id="player2Name" placeholder="اسم الشخص الثاني"><br>
 <button onclick="showInstructions()">ابدأ اللعبة 💕</button>
 </div>
 
@@ -35,23 +51,24 @@ button { padding:10px 25px; border-radius:10px; border:none; font-weight:bold; c
 <p>مرحباً بكم! ❤️</p>
 <ul style="text-align:right;">
 <li>مدة كل دور 30 ثانية ⏱</li>
-<li>عند الإجابة الصحيحة تحصل على نقطة ✅</li>
-<li>يمكنك تخطي السؤال بالضغط على زر "تخطي السؤال بعقاب" واختيار عقاب ممتع للطرف الآخر 😏</li>
-<li>اللاعب الذي يصل إلى 10 نقاط أولاً يفوز! 🏆</li>
+<li>الإجابة الصحيحة تمنحك نقطة ✅</li>
+<li>يمكنك تخطي السؤال بالضغط على زر "تخطي السؤال بعقاب" واختيار عقاب للطرف الآخر 😏</li>
+<li>اللاعب الذي يصل 10 نقاط أولاً يفوز! 🏆</li>
 </ul>
 <button onclick="startGame()">ابدأ اللعبة الآن 🎮</button>
 </div>
 
 <!-- الصفحة الثالثة: اللعبة -->
 <div id="pageGame" style="display:none;">
+
 <div class="players">
-  <div class="player">
-    <span id="player1Display"></span><br>
-    نقاط: <span id="score1">0</span>
+  <div class="player-box">
+    <h3 id="player1Display">اللاعب 1</h3>
+    <div>نقاط: <span id="score1">0</span></div>
   </div>
-  <div class="player player2">
-    <span id="player2Display"></span><br>
-    نقاط: <span id="score2">0</span>
+  <div class="player-box player2">
+    <h3 id="player2Display">اللاعب 2</h3>
+    <div>نقاط: <span id="score2">0</span></div>
   </div>
 </div>
 
@@ -76,25 +93,28 @@ button { padding:10px 25px; border-radius:10px; border:none; font-weight:bold; c
 
 <script>
 let questions = [
-  "أرسل رسالة حب غريبة للشخص الثاني 💌",
-  "قل للشخص الثاني شيء جريء لم تقله من قبل 😏",
-  "ماذا ستفعل لو كنت مع الشخص الثاني الآن؟ 🥰",
-  "ما أكثر شيء يعجبك فيه؟ 💖",
-  "شارك سر صغير للشخص الثاني 🤫",
-  "هل يمكنك وصف شعور قلبك الآن؟ ❤️",
-  "قل كلمة رومانسية بطريقة مضحكة 😂💘",
-  "ما الشيء الذي تريد أن تجربه مع الشخص الآخر؟ 🌹"
+  "صف شعور قلبك تجاه الشخص الآخر بصراحة كاملة ❤️‍🔥",
+  "قل للشخص الآخر شيء لم تخبره به من قبل 😏",
+  "ماذا لو طلب منك الشخص الآخر أن تنفذ طلبه الآن؟ 🥵",
+  "شارك أكثر موقف محرج حصل لك مع الشخص الآخر 😳",
+  "اعترف بشيء تحبه في الشخص الآخر ولم تقل له من قبل 😍",
+  "ما أكثر خيال رومانسي تحلم به معه/معها؟ 💘",
+  "قل كلمة غريبة بطريقة رومانسية تجعل الآخر يضحك 😂💗",
+  "تخيل موقف حميمي مع الطرف الآخر وصفه بصراحة 🔥"
 ];
-let punishments = ["أكل فلفل 🌶️","رقصة مضحكة 💃","قول جملة رومانسية جريئة 😏","اغلق عينيك 10 ثواني 😵"];
-let currentPlayer = 1;
-let timer, time = 30;
-let score1=0, score2=0;
-let lastQuestionIndex=-1;
+let punishments = [
+  "اغمض عينيك 10 ثواني 😵‍💫 (لا تتحرك!)",
+  "قل جملة رومانسية جريئة 😏",
+  "رقص مضحك لمدة 10 ثواني 💃",
+  "قل موقف محرج حصل لك مع الشخص الآخر 🤭",
+  "اعترف بحاجة خفية عن نفسك 💌"
+];
+let currentPlayer=1, timer, time=30, score1=0, score2=0, lastQuestionIndex=-1;
 
 function showInstructions(){
   let p1=document.getElementById("player1Name").value.trim();
   let p2=document.getElementById("player2Name").value.trim();
-  if(!p1 || !p2){ alert("ادخل اسم اللاعبين!"); return;}
+  if(!p1||!p2){alert("ادخل اسم اللاعبين!"); return;}
   document.getElementById("player1Display").innerText=p1;
   document.getElementById("player2Display").innerText=p2;
   document.getElementById("pageStart").style.display="none";
