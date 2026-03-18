@@ -2,7 +2,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>اهلا وسهلا بكم 💕</title>
+<title>لعبه الصراحه</title>
 <style>
 body {
   margin:0;
@@ -39,7 +39,8 @@ button {
 
 <!-- الصفحة الأولى: إدخال الأسماء -->
 <div id="pageStart">
-<h1>💖 لعبة بين الحبيبين</h1>
+<h1>اهلا وسهلا 💕<img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/f13e3ea7-62e1-44ba-b639-d0f61ea2b124" />
+ </h1> 
 <input type="text" id="player1Name" placeholder="اسم الشخص الأول"><br>
 <input type="text" id="player2Name" placeholder="اسم الشخص الثاني"><br>
 <button onclick="showInstructions()">ابدأ اللعبة 💕</button>
