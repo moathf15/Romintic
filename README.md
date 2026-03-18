@@ -128,8 +128,8 @@ function startGame(){
 }
 
 function nextQuestion(){
-  if(score1>=10){ alert(`${document.getElementById("player1Display").innerText} فاز! 😏`); restartGame(); return; }
-  if(score2>=10){ alert(`${document.getElementById("player2Display").innerText} فاز! 😏`); restartGame(); return; }
+  if(score1>=10){ alert(`${document.getElementById("player1Display").innerText} مبروك الفوز 🥳🥳 ، يجب ان يحصل على بوسه `); restartGame(); return; }
+  if(score2>=10){ alert(`${document.getElementById("player2Display").innerText} مبروك الفوز 🥳🥳 ، يجب ان يحصل على بوسه `); restartGame(); return; }
 
   document.getElementById("questionBox").style.display="block";
   document.getElementById("punishmentBox").style.display="none";
